@@ -5,6 +5,9 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+
+    //todo 运行前需要构建libfiber.a
+
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=../c/include/fiber/libfiber.h");
     // The bindgen::Builder is the main entry point
@@ -26,5 +29,5 @@ fn main() {
         .expect("Couldn't write bindings!");
 
     println!("cargo:rustc-link-search=native=../lib");
-    println!("cargo:rustc-link-lib=dylib=libfiber");
+    println!("cargo:rustc-link-lib=dylib=fiber");
 }
