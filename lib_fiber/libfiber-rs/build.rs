@@ -3,10 +3,15 @@ extern crate bindgen;
 
 use std::env;
 use std::path::PathBuf;
+use std::process::Command;
 
 fn main() {
 
-    //todo 运行前需要构建libfiber.a
+    //if libfiber.a not exists, we need to build it before execute
+    Command::new("make")
+        .current_dir("../c")
+        .status()
+        .expect("process failed to execute");
 
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=../c/include/fiber/libfiber.h");
