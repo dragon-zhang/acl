@@ -7,12 +7,6 @@ use std::process::Command;
 
 fn main() {
 
-    //if libfiber.a not exists, we need to build it before execute
-    Command::new("make")
-        .current_dir("../c")
-        .status()
-        .expect("process failed to execute");
-
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=../c/include/fiber/libfiber.h");
     // The bindgen::Builder is the main entry point
@@ -33,6 +27,11 @@ fn main() {
         .write_to_file("src/libfiber.rs")
         .expect("Couldn't write bindings!");
 
+    //if libfiber.a not exists, we need to build it before execute
+    Command::new("make")
+        .current_dir("../c")
+        .status()
+        .expect("process failed to execute");
     println!("cargo:rustc-link-search=native=../lib");
     println!("cargo:rustc-link-lib=dylib=fiber");
 }
